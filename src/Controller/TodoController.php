@@ -1,5 +1,7 @@
 <?php
+
 // src/Controller/TodoController.php
+
 namespace App\Controller;
 
 use App\Entity\Task;
@@ -52,4 +54,3 @@ class TodoController extends AbstractController
         return $this->redirectToRoute('app_todo');
     }
 }
-

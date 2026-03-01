@@ -41,11 +41,11 @@
                             </span>
                         </td>
                         <td>
-                            <a href="{{ path('app_todo_toggle', {'id': task.id}) }}"
+                            <a href="{{ path('app_todo_toggle', {id: task.id}) }}"
                                class="btn btn-sm btn-outline-info me-1">
                                 🔄 Toggle
                             </a>
-                            <a href="{{ path('app_todo_delete', {'id': task.id}) }}"
+                            <a href="{{ path('app_todo_delete', {id: task.id}) }}"
                                class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('Supprimer {{ task.title }} ?')">
                                 🗑️ Suppr
@@ -64,4 +64,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
