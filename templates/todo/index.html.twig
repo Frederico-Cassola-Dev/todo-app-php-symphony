@@ -6,6 +6,9 @@
 {% block body %}
 <div class="container mt-4">
     <h1>Mes tâches ({{ tasks|length }})</h1>
+    <a href="{{ path('app_todo_create') }}" class="btn btn-primary mb-3">
+    ➕ Nouvelle tâche
+    </a>
 
     <a href="{{ path('app_todo_new') }}" class="btn btn-primary mb-3">
         ➕ Ajouter tâche exemple

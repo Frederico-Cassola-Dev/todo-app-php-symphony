@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}➕ Nouvelle tâche{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Nouvelle tâche</h1>
+
+    {# Messages flash #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {# FORMULAIRE COMPLET #}
+    {{ form_start(form, {attr: {class: 'needs-validation', novalidate: 'novalidate'}}) }}
+
+        <div class="mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {attr: {class: 'form-control', placeholder: 'Que dois-je faire ?'}}) }}
+            {{ form_help(form.title) }}
+            {{ form_errors(form.title) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {attr: {class: 'form-control', rows: 3, placeholder: 'Détails...'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.dueDate) }}
+            {{ form_widget(form.dueDate, {attr: {class: 'form-control', type: 'datetime-local'}}) }}
+        </div>
+
+        <div class="form-check mb-3">
+            {{ form_widget(form.isDone, {attr: {class: 'form-check-input'}}) }}
+            {{ form_label(form.isDone, null, {label_attr: {class: 'form-check-label'}}) }}
+        </div>
+
+        {# BOUTONS ! #}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="submit" class="btn btn-success btn-lg">
+                💾 Créer la tâche
+            </button>
+            <a href="{{ path('app_todo') }}" class="btn btn-secondary">
+                ❌ Annuler
+            </a>
+        </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

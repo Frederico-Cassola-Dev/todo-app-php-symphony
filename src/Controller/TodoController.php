@@ -5,14 +5,43 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class TodoController extends AbstractController
 {
+    #[Route('/todo/create', name: 'app_todo_create', methods: ['GET', 'POST'])]
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
+        // DEBUG POST
+        if ($request->isMethod('POST')) {
+            dump($request->request);  // ← SEULEMENT données POST
+            dd($request->request->all());  // ← SEULEMENT données POST
+            // dd($task);  // ← Vois l'entité remplie
+            // dump($request->request->all());  // ← SEULEMENT données POST
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($task);
+            $em->flush();
+            $this->addFlash('success', 'Tâche créée !');
+
+            return $this->redirectToRoute('app_todo');
+        }
+
+        return $this->render('todo/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/todo', name: 'app_todo')]
     public function index(TaskRepository $repository): Response
     {
@@ -52,5 +81,21 @@ class TodoController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_todo');
+    }
+
+    #[Route('/todo/{id}/edit', name: 'app_todo_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Task $task, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Taché modifiée !');
+
+            return $this->redirectToRoute('app_todo');
+        }
+
+        return $this->render('todo/edit.html.twig', ['form' => $form->createView(), 'task' => $task]);
     }
 }
