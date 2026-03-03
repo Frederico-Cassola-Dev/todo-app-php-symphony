@@ -54,6 +54,11 @@
                                 🗑️ Suppr
                             </a>
                         </td>
+                        <td>
+                            <span class="badge fs-6 bg-{{ task.priority.color() ?? 'secondary' }}">
+                                {{ task.priority.label() ?? '—' }}
+                            </span>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -62,7 +67,7 @@
     {% else %}
         <div class="alert alert-info text-center">
             <h4>Aucune tâche 😴</h4>
-            <p><a href="{{ path('app_todo_new') }}" class="btn btn-primary">Crée la première !</a></p>
+            <p><a href="{{ path('app_todo_create') }}" class="btn btn-primary">Crée la première !</a></p>
         </div>
     {% endif %}
 </div>

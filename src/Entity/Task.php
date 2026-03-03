@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\TaskPriority;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,6 +26,21 @@ class Task
 
     #[ORM\Column]
     private ?bool $isDone = null;
+
+    #[ORM\Column(enumType: TaskPriority::class)]
+    private ?TaskPriority $priority = null;
+
+    public function getPriority(): TaskPriority
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(TaskPriority $priority): static
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

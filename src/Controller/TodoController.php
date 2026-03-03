@@ -21,13 +21,6 @@ class TodoController extends AbstractController
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
-        // DEBUG POST
-        if ($request->isMethod('POST')) {
-            dump($request->request);  // ← SEULEMENT données POST
-            dd($request->request->all());  // ← SEULEMENT données POST
-            // dd($task);  // ← Vois l'entité remplie
-            // dump($request->request->all());  // ← SEULEMENT données POST
-        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($task);

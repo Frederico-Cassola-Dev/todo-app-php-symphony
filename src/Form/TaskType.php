@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Task;
+use App\Enum\TaskPriority;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,6 +38,13 @@ class TaskType extends AbstractType
             ])
             ->add('isDone', null, [
                 'required' => false,
+            ])
+            ->add('priority', ChoiceType::class, [
+                'choices' => TaskPriority::cases(),
+                'choice_label' => fn (TaskPriority $priority) => $priority->label(),
+                'choice_attr' => fn (TaskPriority $priority) => ['class' => 'priority-badge bg-', $priority->color()],
+                'expanded' => true,
+                'placeholder' => 'Priorité par défaut',
             ]);
     }
 
