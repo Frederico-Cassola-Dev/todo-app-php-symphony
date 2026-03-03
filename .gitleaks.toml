@@ -1,0 +1,4 @@
+[[rules]]
+id = "env-secrets"
+description = "Generic API key leaked"
+regex = '''(?i)(api[_-]?key|secret|token|password|pwd)[=:]\s*[^\s]+'''
