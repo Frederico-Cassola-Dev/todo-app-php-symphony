@@ -22,6 +22,11 @@ class TodoController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
+        // if ($form->isSubmitted()) {
+        dump($form->getErrors(true, false));  // Toutes erreurs
+        dump($form->isValid());  // false si KO
+        // }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($task);
             $em->flush();

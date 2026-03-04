@@ -28,9 +28,9 @@ class Task
     private ?bool $isDone = null;
 
     #[ORM\Column(enumType: TaskPriority::class)]
-    private ?TaskPriority $priority = null;
+    private ?TaskPriority $priority = TaskPriority::MEDIUM;
 
-    public function getPriority(): TaskPriority
+    public function getPriority(): ?TaskPriority
     {
         return $this->priority;
     }

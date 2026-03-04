@@ -36,6 +36,11 @@
             {{ form_label(form.isDone, null, {label_attr: {class: 'form-check-label'}}) }}
         </div>
 
+        <div class="form-check mb-3">
+            {{ form_label(form.priority, null, {label_attr: {class: 'form-check-label'}}) }}
+            {{ form_widget(form.priority, {attr: {class: 'form-check-input'}}) }}
+        </div>
+
         {# BOUTONS ! #}
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
             <button type="submit" class="btn btn-success btn-lg">
