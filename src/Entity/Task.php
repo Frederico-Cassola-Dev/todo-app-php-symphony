@@ -6,6 +6,8 @@ use App\Enum\TaskPriority;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -30,16 +32,17 @@ class Task
     #[ORM\Column(enumType: TaskPriority::class)]
     private ?TaskPriority $priority = TaskPriority::MEDIUM;
 
-    public function getPriority(): ?TaskPriority
-    {
-        return $this->priority;
-    }
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    public function setPriority(TaskPriority $priority): static
-    {
-        $this->priority = $priority;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
-        return $this;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->isDone = false;
+        $this->priority = TaskPriority::MEDIUM;
     }
 
     public function getId(): ?int
@@ -91,6 +94,44 @@ class Task
     public function setIsDone(bool $isDone): static
     {
         $this->isDone = $isDone;
+
+        return $this;
+    }
+
+    public function getPriority(): ?TaskPriority
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?TaskPriority $priority): static
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

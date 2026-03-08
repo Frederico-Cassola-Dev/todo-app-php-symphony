@@ -14,6 +14,11 @@
         ➕ Ajouter tâche exemple
     </a>
 
+    {# Messages flash #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
     {% if tasks|length > 0 %}
         <div class="table-responsive">
             <table class="table table-striped">
@@ -23,12 +28,12 @@
                         <th>Description</th>
                         <th>Échéance</th>
                         <th>Statut</th>
-                        <th>Actions</th>
+                        <th class="d-flex justify-content-center">Actions</th>
                         <th>Priority</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for task in tasks %}
+                    {% for task in tasks|sort((task) =>task.isDone) %}
                     <tr class="{% if task.isDone %}table-success{% else %}table-warning{% endif %}">
                         <td><strong>{{ task.title }}</strong></td>
                         <td>{{ task.description ?: 'Aucune' }}</td>
@@ -44,17 +49,21 @@
                                 {{ task.isDone ? '✅ Fait' : '⏳ À faire' }}
                             </span>
                         </td>
-                        <td>
+                        <td class="d-flex justify-content-center gap-4">
                             <a href="{{ path('app_todo_toggle', {id: task.id}) }}"
                                class="btn btn-sm btn-outline-info me-1">
                                 🔄 Toggle
+                            </a>
+                            <a href="{{ path('app_todo_edit', {id: task.id}) }}"
+                               class="btn btn-sm btn-outline-success">
+                                ✏️ Modifier
                             </a>
                             <a href="{{ path('app_todo_delete', {id: task.id}) }}"
                                class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('Supprimer {{ task.title }} ?')">
                                 🗑️ Suppr
                             </a>
-                        </td>
+                                                </td>
                         <td>
                             <span class="badge fs-6 bg-{{ task.priority.color() ?? 'secondary' }}">
                                 {{ task.priority.label() ?? '—' }}

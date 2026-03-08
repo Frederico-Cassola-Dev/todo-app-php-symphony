@@ -22,17 +22,16 @@ class TodoController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
-        // if ($form->isSubmitted()) {
-        dump($form->getErrors(true, false));  // Toutes erreurs
-        dump($form->isValid());  // false si KO
-        // }
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($task);
             $em->flush();
-            $this->addFlash('success', 'Tâche créée !');
 
+            $this->addFlash('success', 'Tâche créée !');
             return $this->redirectToRoute('app_todo');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Tâche error !');
         }
 
         return $this->render('todo/create.html.twig', [
@@ -44,6 +43,12 @@ class TodoController extends AbstractController
     public function index(TaskRepository $repository): Response
     {
         $tasks = $repository->findAll();
+        // foreach ($tasks as $task) {
+        //     if ($task->getDueDate()) {
+        //         dump($task->getDueDate()->getTimestamp());
+        //     }
+        // }
+        // dd($tasks);
 
         return $this->render('todo/index.html.twig', [
             'tasks' => $tasks,
@@ -56,6 +61,7 @@ class TodoController extends AbstractController
         $task = new Task();
         $task->setTitle('Nouvelle tâche exemple');
         $task->setDescription('Description par défaut');
+        $task->setCreatedAt(new \DateTimeImmutable());
         $task->setIsDone(false);
         $em->persist($task);
         $em->flush();

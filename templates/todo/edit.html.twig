@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}➕ Nouvelle tâche{% endblock %}
+{% block title %}➕ Modifier tâche{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Nouvelle tâche</h1>
+    <h1>Modifier tâche</h1>
 
     {# Messages flash #}
     {% for message in app.flashes('success') %}
@@ -64,7 +64,7 @@
         {# BOUTONS ! #}
         <div class="d-grid gap-4 d-md-flex justify-content-md-start" >
             <button type="submit" class="btn btn-success btn-lg" }>
-                💾 Créer la tâche
+                💾 Modifier la tâche
             </button>
             <a href="{{ path('app_todo') }}" class="btn btn-secondary d-flex align-items-center">
                 ❌ Annuler
